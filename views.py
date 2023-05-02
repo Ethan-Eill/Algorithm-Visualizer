@@ -12,7 +12,7 @@ class Main_View():
         self.button_color = (22, 182, 250)
         self.button_font = pygame.font.Font("assets/ARCADE_N.TTF", 40)
         self.information_font = pygame.font.Font("assets/ARCADE_N.TTF", 14)
-        self.information_color = (255,255,255)
+        self.bar_color = (255,255,255)
         self.sort_button = Button(image=None, pos=(self.screen_width/2, self.screen_height/1.7), 
                         text_input="Sort", font=self.button_font, base_color=self.button_color, hovering_color="White")
         self.options_button = Button(image=None, pos=(self.screen_width/2, self.screen_height/1.5), 
@@ -35,6 +35,19 @@ class Main_View():
         for button in [self.sort_button, self.options_button, self.quit_button]:
             button.changeColor(mouse_pos)
             button.update(self.screen)
+
+        pygame.display.update()
+
+    #sorting screen to be looped through
+    def sorting(self, model):
+        self.screen.fill(self.background_color)
+
+        num = 1
+
+        for i in model.arr:
+            pygame.draw.rect(self.screen, self.background_color, pygame.Rect((num*model.width), 300, model.width, model.height*i))
+
+        pygame.draw.rect(self.screen, self.background_color, pygame.Rect(0, 700, 1200, 100))
 
         pygame.display.update()
 

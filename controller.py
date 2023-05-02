@@ -1,38 +1,48 @@
 import pygame
+from models import Algorithm
 from views import Main_View
 
-def main():
-    pygame.init()
-    global loop_state, view
-    print("Algorithm Visualizer")
-    loop_state = "main-menu"
-    view = Main_View()
-    while True:
-        if loop_state == "main-menu":
-            main_menu()
-        elif loop_state == "sorting":
-            print("were sorting")
-        elif loop_state == "options":
-            print("were in options")
+class Controller():
+    def __init__(self):
+        pygame.init()
 
-        
+        self.loop_state = "main-menu"
+        self.view = Main_View()
+        self.model = Algorithm()
 
-def main_menu():
-    global loop_state, view
-    mouse_pos = pygame.mouse.get_pos()
+    def main_game_loop(self):
+        while True:
+            if self.loop_state == "main-menu":
+                self.main_menu()
+            elif self.loop_state == "sorting":
+                self.sorting_menu()
+            elif self.loop_state == "options":
+                print("were in options")
 
-    view.main_menu(mouse_pos)
+    def main_menu(self):
+        mouse_pos = pygame.mouse.get_pos()
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if view.sort_button.checkForInput(mouse_pos):
-                loop_state = "sorting"
-            elif view.options_button.checkForInput(mouse_pos):
-                loop_state = "options"
-            elif view.quit_button.checkForInput(mouse_pos):
+        self.view.main_menu(mouse_pos)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
                 pygame.quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if self.view.sort_button.checkForInput(mouse_pos):
+                    self.loop_state = "sorting"
+                elif self.view.options_button.checkForInput(mouse_pos):
+                    self.loop_state = "options"
+                elif self.view.quit_button.checkForInput(mouse_pos):
+                    pygame.quit()
+
+    def sorting_menu(self):
+
+        self.view.sorting(self.model)
+
+def main():
+    controller = Controller()
+    controller.main_game_loop()
+
 
 if __name__ == "__main__":
     main()
